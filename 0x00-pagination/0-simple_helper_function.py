@@ -2,9 +2,10 @@
 '''
 Module that handles the implementation of index_range
 '''
+from typing import Tuple
 
 
-def index_range(page: int, page_size: int) -> tuple:
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
     '''
     Args:
         page: the given page number, starting from 1
