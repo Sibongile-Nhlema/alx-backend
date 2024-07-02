@@ -26,9 +26,9 @@ def get_locale():
     Selects the best match for supported languages based on
     the client's request.
     '''
-    if request.args.get('locale') and \
-       request.args.get('locale') in app.config['LANGUAGES']:
-        return request.args.get('locale')
+    locale = request.args.get('locale')
+    if locale in app.config['LANGUAGES']:
+        return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
