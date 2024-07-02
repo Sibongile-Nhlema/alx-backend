@@ -34,7 +34,7 @@ def index():
     '''
     Method handles the rendering of the index template
     '''
-    return render_template('2-index.html',
+    return render_template('3-index.html',
                            home_title=_("home_title"),
                            home_header=_("home_header"))
 
