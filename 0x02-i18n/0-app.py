@@ -10,6 +10,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    '''
+    Method handles the rendering of the index template
+    '''
     return render_template('0-index/html')
 
 
