@@ -4,6 +4,7 @@ Module for the basic babel setup
 '''
 from flask import Flask, render_template, request, g
 from flask_babel import Babel, _
+import pytz
 
 
 users = {
@@ -35,6 +36,33 @@ def get_user(user_id):
     Checks if the user is in the mock database
     '''
     return users.get(user_id)
+
+
+@babel.timezoneselector
+def get_timezone():
+    """
+    Selects the best match for supported time zones based on
+    the client's request.
+    """
+    # Find timezone parameter in URL parameters
+    timezone = request.args.get('timezone')
+    if timezone:
+        try:
+            pytz.timezone(timezone)
+            return timezone
+        except pytz.UnknownTimeZoneError:
+            pass
+
+    # Find time zone from user settings
+    if g.user and 'timezone' in g.user:
+        try:
+            pytz.timezone(g.user['timezone'])
+            return g.user['timezone']
+        except pytz.UnknownTimeZoneError:
+            pass
+
+    # Default to UTC
+    return 'UTC'
 
 
 @app.before_request
@@ -75,7 +103,7 @@ def index():
     '''
     Method handles the rendering of the index template
     '''
-    return render_template('6-index.html',
+    return render_template('7-index.html',
                            home_title=_("home_title"),
                            home_header=_("home_header"))
 
