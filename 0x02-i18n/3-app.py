@@ -4,6 +4,7 @@ Module for the basic babel setup
 '''
 from flask import Flask, render_template, request
 from flask_babel import Babel, _
+from typing import Union
 
 
 class Config:
@@ -14,6 +15,7 @@ class Config:
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
+
 app = Flask(__name__)
 app.config.from_object(Config)
 
@@ -21,7 +23,7 @@ babel = Babel(app)
 
 
 @babel.localeselector
-def get_locale():
+def get_locale() -> Union[str, None]:
     '''
     Selects the best match for supported languages based on
     the client's request.
@@ -30,7 +32,7 @@ def get_locale():
 
 
 @app.route('/')
-def index():
+def index() -> str:
     '''
     Method handles the rendering of the index template
     '''
