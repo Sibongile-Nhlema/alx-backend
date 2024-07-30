@@ -1,6 +1,5 @@
 import { createClient } from 'redis';
 
-// Create a Redis client
 const client = createClient();
 
 client.on('connect', () => {
@@ -19,7 +18,6 @@ function publishMessage(message, time) {
   }, time);
 }
 
-// Call the function with various messages and delays
 publishMessage('Holberton Student #1 starts course', 100);
 publishMessage('Holberton Student #2 starts course', 200);
 publishMessage('KILL_SERVER', 300);
