@@ -1,4 +1,5 @@
 import { createClient, print } from 'redis';
+import { promisify } from 'util';
 
 const client = createClient();
 
@@ -10,6 +11,9 @@ client.on('error', (err) => {
   console.error(`Redis client not connected to the server: ${err.message}`);
 });
 
+// Promisify the client.get method for async/await usage
+const getAsync = promisify(client.get).bind(client);
+
 function setNewSchool(schoolName, value) {
   client.set(schoolName, value, (err, reply) => {
     if (err) {
@@ -20,15 +24,19 @@ function setNewSchool(schoolName, value) {
   });
 }
 
-function displaySchoolValue(schoolName) {
-  client.get(schoolName, (err, value) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(value);
-    }
-  });
+async function displaySchoolValue(schoolName) {
+  try {
+    const value = await getAsync(schoolName);
+    console.log(value);
+  } catch (err) {
+    console.error(err);
+  }
 }
-displaySchoolValue('Holberton');
-setNewSchool('HolbertonSanFrancisco', '100');
-displaySchoolValue('HolbertonSanFrancisco');
+
+async function run() {
+  await displaySchoolValue('Holberton');
+  await setNewSchool('HolbertonSanFrancisco', '100');
+  await displaySchoolValue('HolbertonSanFrancisco');
+}
+
+run();
