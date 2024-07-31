@@ -6,18 +6,15 @@ describe('createPushNotificationsJobs', () => {
   let queue;
 
   before(() => {
-    // Create a queue and enter test mode
     queue = kue.createQueue();
     queue.testMode = true;
   });
 
   afterEach(() => {
-    // Clear the queue after each test
     queue.testMode.jobs = [];
   });
 
   after(() => {
-    // Exit test mode
     queue.testMode = false;
   });
 
